@@ -1,7 +1,9 @@
+import { useLazyQuery } from "@apollo/client"
 import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useControllableState } from "@chakra-ui/react"
-import React from "react"
-import { deleteStudent } from "../graphql"
-import { useStudentMutation } from "../hooks/useRequest"
+import React, { useContext, useState } from "react"
+import { StudentsDataContext } from "../context/StudentsDataContext"
+import { deleteStudent, findStudents } from "../graphql"
+import { useStudentMutation, useStudentQuery } from "../hooks/useRequest"
 
 type Props = {
   _id: string,
@@ -12,20 +14,26 @@ type Props = {
 
 const DeleteDialog: React.FC<Props> = ({ _id, name, setRemoveStudentDialog, removeStudentDialog }) => {
   const [ removeStudent ] = useStudentMutation(deleteStudent)
+  const { setStudentsData } = useContext(StudentsDataContext)
+  const [ query, {loading, error, data}] = useLazyQuery(findStudents);
 
   const cancelRef = React.useRef(null)
-
-  function handleDeleteConfirm() {
-    setRemoveStudentDialog(true);
-  }
-
   function handleStudentDelete() {
     removeStudent({
       variables: {
         id: _id
       }
     }).catch((err) => console.log(err))
+    query()
+    .then((data) => {
+      data.refetch()
+      .then((result) => {
+        setStudentsData(result.data)
+        setRemoveStudentDialog(false)
+      })
+    })
   }
+
   return (
     <AlertDialog
       isOpen={removeStudentDialog}
