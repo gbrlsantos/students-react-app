@@ -1,14 +1,16 @@
 import { Button, Flex, Image, useControllableState } from "@chakra-ui/react";
-import NewStudentModal from "./NewStudentModal";
+import { useContext } from "react";
+import { StudentsDataContext } from "../context/StudentsDataContext";
+import StudentModal from "./StudentModal";
 
 const Header: React.FC = () => {
-  const [ isModalOpen, setIsModalOpen ] = useControllableState({ defaultValue: false })
+  const { isCreateModalOpen, setIsCreateModalOpen } = useContext(StudentsDataContext)
 
   return (
     <Flex justifyContent="space-between" my="8">
       <Image src="https://d3awytnmmfk53d.cloudfront.net/landings/static/images/core/logo_verde.svg"/>
       <Button
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsCreateModalOpen(true)}
         size="md"
         color={"black"}
         border="2px"
@@ -18,7 +20,7 @@ const Header: React.FC = () => {
       >
         Criar novo estudante
       </Button>
-      { isModalOpen && <NewStudentModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} newStudent={true}/>}
+      { isCreateModalOpen && <StudentModal newStudent={true}/>}
     </Flex>
   )
 }
