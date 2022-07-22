@@ -18,7 +18,7 @@ const Header: React.FC = () => {
       >
         Criar novo estudante
       </Button>
-      { isModalOpen && <NewStudentModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>}
+      { isModalOpen && <NewStudentModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} newStudent={true}/>}
     </Flex>
   )
 }
