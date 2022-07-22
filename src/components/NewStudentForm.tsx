@@ -1,9 +1,9 @@
-import { InputGroup, InputLeftElement, Stack, Input, Button, useControllableState, Editable, EditablePreview, EditableInput } from "@chakra-ui/react"
+import { InputGroup, InputLeftElement, Stack, Input, Button, useControllableState } from "@chakra-ui/react"
 import { AtSignIcon } from '@chakra-ui/icons'
 import { useStudentMutation } from "../hooks/useRequest"
 import { createStudent, findStudents, updateStudent } from "../graphql"
 import { IStudent } from "../interfaces/IStudent"
-import { InputHTMLAttributes, useContext } from "react"
+import { useContext } from "react"
 import { useLazyQuery } from "@apollo/client"
 import { StudentsDataContext } from "../context/StudentsDataContext"
 
@@ -13,45 +13,52 @@ type Props = {
 }
 
 const NewStudentForm: React.FC<Props> = ({student, newStudent}) => {
-  const {setIsCreateModalOpen, setIsUpdateModalOpen } = useContext(StudentsDataContext)
-  const { setStudentsData } = useContext(StudentsDataContext)
+  const {setIsCreateModalOpen, setIsUpdateModalOpen, setStudentsData, setIsErrorAlert } = useContext(StudentsDataContext)
 
-  const [ addStudent, refetch ] = useStudentMutation(createStudent)
+  const [ addStudent ] = useStudentMutation(createStudent)
   const [ alterStudent ] = useStudentMutation(updateStudent)
 
   const [ email, setEmail ] = useControllableState({ defaultValue: student? student.email : '' })
   const [ cpf, setCpf ] = useControllableState({ defaultValue: student? student.cpf : '' })
   const [ name, setName ] = useControllableState({ defaultValue: student? student.name : '' })
 
-  const [ query, {loading, error, data}] = useLazyQuery(findStudents);
+  const [ query ] = useLazyQuery(findStudents);
 
   function handleSubmitForm() {
     if (newStudent) {
       addStudent({
         variables: { name, cpf, email }
-      }).catch((err) => console.log(err))
-      query()
-      .then((data) => {
-        data.refetch()
-        .then((result) => {
-          setStudentsData(result.data)
-          newStudent ? setIsCreateModalOpen(false) : setIsUpdateModalOpen(false)
+      })
+      .then((result) => {
+        setIsErrorAlert(false)
+        query()
+        .then((data) => {
+          data.refetch()
+          .then((result) => {
+            setStudentsData(result.data)
+            newStudent ? setIsCreateModalOpen(false) : setIsUpdateModalOpen(false)
+          })
         })
       })
+      .catch(() => setIsErrorAlert(true))
     }
     else {
       alterStudent({
         variables: { id: student?._id, name, cpf, email },
         refetchQueries: [{ query: findStudents }]
-      }).catch((err) => console.log(err))
-      query()
-      .then((data) => {
-        data.refetch()
-        .then((result) => {
-          setStudentsData(result.data)
-          newStudent ? setIsCreateModalOpen(false) : setIsUpdateModalOpen(false)
-        })
       })
+      .then((result) => {
+          setIsErrorAlert(false)
+          query()
+          .then((data) => {
+            data.refetch()
+            .then((result) => {
+              setStudentsData(result.data)
+              newStudent ? setIsCreateModalOpen(false) : setIsUpdateModalOpen(false)
+            })
+          })
+        })
+        .catch(() => setIsErrorAlert(true))
     }
   }
 
