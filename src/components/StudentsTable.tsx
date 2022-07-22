@@ -13,7 +13,7 @@ const StudentsTable: React.FC = () => {
   if (loading) return <LoadingScreen />;
 
   return(
-    <Box borderTopLeftRadius="2rem" borderTopRightRadius="2rem" mt='28' bg="descomplica.100" h="100vh" w="100%">
+    <Box borderTopLeftRadius="2rem" borderTopRightRadius="2rem" bg="descomplica.100" h="100vh" w="100%">
       <TableContainer>
         <Table variant='unstyled'>
           <Thead>
