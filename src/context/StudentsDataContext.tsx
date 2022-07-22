@@ -12,6 +12,8 @@ interface StudentsDataContextType {
   setIsCreateModalOpen: (isModalOpen: boolean) => void,
   isUpdateModalOpen: boolean,
   setIsUpdateModalOpen: (isModalOpen: boolean) => void,
+  isErrorAlert: boolean,
+  setIsErrorAlert: (isErrorAlert: boolean) => void,
 }
 
 const initialValue: StudentsDataContextType = {
@@ -22,7 +24,9 @@ const initialValue: StudentsDataContextType = {
   isCreateModalOpen: false,
   setIsCreateModalOpen: () => {},
   isUpdateModalOpen: false,
-  setIsUpdateModalOpen: () => {}
+  setIsUpdateModalOpen: () => {},
+  isErrorAlert: false,
+  setIsErrorAlert: () => {}
 }
 
 export const StudentsDataContext = createContext<StudentsDataContextType>(initialValue)
@@ -31,6 +35,7 @@ export default function StudentsDataProvider({children}: StudentsDataContextProp
   const [ studentsData, setStudentsData ] = useState(initialValue.studentsData)
   const [ isCreateModalOpen, setIsCreateModalOpen ] = useState(initialValue.isCreateModalOpen)
   const [ isUpdateModalOpen, setIsUpdateModalOpen ] = useState(initialValue.isUpdateModalOpen)
+  const [ isErrorAlert, setIsErrorAlert ] = useState(false)
 
   return <StudentsDataContext.Provider
     value={{
@@ -39,7 +44,9 @@ export default function StudentsDataProvider({children}: StudentsDataContextProp
       isCreateModalOpen,
       setIsCreateModalOpen,
       isUpdateModalOpen,
-      setIsUpdateModalOpen
+      setIsUpdateModalOpen,
+      isErrorAlert,
+      setIsErrorAlert
   }}>
     {children}
   </StudentsDataContext.Provider>
