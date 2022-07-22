@@ -24,6 +24,17 @@ export const createStudent = gql`
 export const deleteStudent = gql`
   mutation DeleteStudent($id: String!) {
     deleteStudent(_id: $id) {
-      _id
+      name
+      cpf
+      email
+    }
+}`
+
+export const updateStudent = gql`
+  mutation UpdateStudent($id: String!, $name: String, $cpf: String, $email: String) {
+    updateStudent(_id: $id, name: $name, cpf: $cpf, email: $email) {
+      name
+      cpf
+      email
     }
 }`
