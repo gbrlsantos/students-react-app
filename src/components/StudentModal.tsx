@@ -1,4 +1,4 @@
-import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { Alert, AlertIcon, AlertTitle, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 
 import React, { useContext } from "react";
 import { StudentsDataContext } from "../context/StudentsDataContext";
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const StudentModal: React.FC<Props> = ({newStudent, student}) => {
-  const { isCreateModalOpen, setIsCreateModalOpen, isUpdateModalOpen, setIsUpdateModalOpen } = useContext(StudentsDataContext)
+  const { isCreateModalOpen, setIsCreateModalOpen, isUpdateModalOpen, setIsUpdateModalOpen, isErrorAlert } = useContext(StudentsDataContext)
   return(
     <Modal isOpen={ newStudent ? isCreateModalOpen : isUpdateModalOpen} onClose={() => newStudent ? setIsCreateModalOpen(false) : setIsUpdateModalOpen(false)} size={"2xl"}>
       <ModalOverlay />
@@ -24,6 +24,13 @@ const StudentModal: React.FC<Props> = ({newStudent, student}) => {
         <ModalBody>
           { newStudent && <NewStudentForm newStudent={true} /> }
           { student && <NewStudentForm newStudent={false} student={student} /> }
+          {
+            isErrorAlert && 
+              <Alert status='error' mt={"4"}>
+                <AlertIcon />
+                <AlertTitle>Por favor, preencha todos os campos. </AlertTitle>
+              </Alert>
+            }
         </ModalBody>
       </ModalContent>
     </Modal>
