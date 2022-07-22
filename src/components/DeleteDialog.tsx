@@ -1,9 +1,9 @@
 import { useLazyQuery } from "@apollo/client"
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button, useControllableState } from "@chakra-ui/react"
-import React, { useContext, useState } from "react"
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Button } from "@chakra-ui/react"
+import React, { useContext } from "react"
 import { StudentsDataContext } from "../context/StudentsDataContext"
 import { deleteStudent, findStudents } from "../graphql"
-import { useStudentMutation, useStudentQuery } from "../hooks/useRequest"
+import { useStudentMutation } from "../hooks/useRequest"
 
 type Props = {
   _id: string,
@@ -14,8 +14,8 @@ type Props = {
 
 const DeleteDialog: React.FC<Props> = ({ _id, name, setRemoveStudentDialog, removeStudentDialog }) => {
   const [ removeStudent ] = useStudentMutation(deleteStudent)
-  const { setStudentsData } = useContext(StudentsDataContext)
-  const [ query, {loading, error, data}] = useLazyQuery(findStudents);
+  const { setStudentsData, setIsErrorAlert } = useContext(StudentsDataContext)
+  const [ query ] = useLazyQuery(findStudents);
 
   const cancelRef = React.useRef(null)
   function handleStudentDelete() {
@@ -23,7 +23,7 @@ const DeleteDialog: React.FC<Props> = ({ _id, name, setRemoveStudentDialog, remo
       variables: {
         id: _id
       }
-    }).catch((err) => console.log(err))
+    }).catch(() => setIsErrorAlert(true))
     query()
     .then((data) => {
       data.refetch()
