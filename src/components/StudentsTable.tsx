@@ -1,15 +1,17 @@
 import { Box, Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
-import { findStudents } from "../graphql";
-import { useStudentQuery } from "../hooks/useRequest";
-import { IStudent } from "../interfaces/IStudent";
-import LoadingScreen from "./generic/LoadingScreen";
+import { useContext, useEffect } from "react";
+import { StudentsDataContext } from "../context/StudentsDataContext";
+import { IStudent, IStudents } from "../interfaces/IStudent";
 import Student from "./Student";
 
-const StudentsTable: React.FC = () => {
-  const { loading, error, data } = useStudentQuery(findStudents);
-  if (error) return <h1>Ops, algo deu errado.</h1>;
+type Props = {
+  data: IStudents,
+}
 
-  if (loading) return <LoadingScreen />;
+const StudentsTable: React.FC<Props> = ({data}) => {
+  console.log(data)
+  let { studentsData } = useContext(StudentsDataContext)
+  studentsData = data
 
   return(
     <Box
@@ -29,7 +31,7 @@ const StudentsTable: React.FC = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {data?.findStudents.map((student: IStudent, index: number) => (
+            {studentsData && studentsData.findStudents.map((student: IStudent, index: number) => (
               <Student key={index} student={student} />
             ))}
           </Tbody>
