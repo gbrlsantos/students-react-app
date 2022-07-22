@@ -6,6 +6,7 @@ export const findStudents = gql`
       name
       cpf
       email
+      _id
     }
   }
 `;
