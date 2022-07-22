@@ -1,19 +1,19 @@
 import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
 
-import React from "react";
+import React, { useContext } from "react";
+import { StudentsDataContext } from "../context/StudentsDataContext";
 import { IStudent } from "../interfaces/IStudent";
 import NewStudentForm from "./NewStudentForm";
 
 type Props = {
-  isModalOpen: boolean
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>
   newStudent: boolean
   student?: IStudent
 };
 
-const NewStudentModal: React.FC<Props> = ({isModalOpen, setIsModalOpen, newStudent, student}) => {
+const StudentModal: React.FC<Props> = ({newStudent, student}) => {
+  const { isCreateModalOpen, setIsCreateModalOpen, isUpdateModalOpen, setIsUpdateModalOpen } = useContext(StudentsDataContext)
   return(
-    <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} size={"2xl"}>
+    <Modal isOpen={ newStudent ? isCreateModalOpen : isUpdateModalOpen} onClose={() => newStudent ? setIsCreateModalOpen(false) : setIsUpdateModalOpen(false)} size={"2xl"}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>
@@ -30,4 +30,4 @@ const NewStudentModal: React.FC<Props> = ({isModalOpen, setIsModalOpen, newStude
   )
 }
 
-export default NewStudentModal;
+export default StudentModal;
