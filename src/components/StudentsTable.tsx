@@ -8,12 +8,18 @@ import Student from "./Student";
 const StudentsTable: React.FC = () => {
   const { loading, error, data } = useStudentQuery(findStudents);
   
-  if (error) return <h1>Something went wrong!</h1>;
+  if (error) return <h1>Ops, algo deu errado.</h1>;
 
   if (loading) return <LoadingScreen />;
 
   return(
-    <Box borderTopLeftRadius="2rem" borderTopRightRadius="2rem" bg="descomplica.100" h="100vh" w="100%">
+    <Box
+      borderTopLeftRadius="2rem"
+      borderTopRightRadius="2rem"
+      bg="descomplica.100"
+      h="100vh"
+      w="100%"
+    >
       <TableContainer>
         <Table variant='unstyled'>
           <Thead>
