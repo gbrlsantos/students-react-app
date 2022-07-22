@@ -7,6 +7,7 @@ import Student from "./Student";
 
 const StudentsTable: React.FC = () => {
   const { loading, error, data } = useStudentQuery(findStudents);
+  
   if (error) return <h1>Something went wrong!</h1>;
 
   if (loading) return <LoadingScreen />;
