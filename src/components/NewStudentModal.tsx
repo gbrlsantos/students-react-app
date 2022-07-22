@@ -1,5 +1,7 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+import { Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay } from "@chakra-ui/react";
+
 import React from "react";
+import NewStudentForm from "./NewStudentForm";
 
 type Props = {
   isModalOpen: boolean
@@ -14,15 +16,8 @@ const NewStudentModal: React.FC<Props> = ({isModalOpen, setIsModalOpen}) => {
         <ModalHeader>Criar novo estudante</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          Blablabla
+          <NewStudentForm />
         </ModalBody>
-
-        <ModalFooter>
-          <Button colorScheme='blue' mr={3} onClick={() => setIsModalOpen(false)}>
-            Close
-          </Button>
-          <Button variant='ghost'>Secondary Action</Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   )
