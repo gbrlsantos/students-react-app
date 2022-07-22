@@ -4,14 +4,15 @@ import { IStudent } from "../interfaces/IStudent"
 import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
 import { motion } from "framer-motion";
 import DeleteDialog from "./DeleteDialog";
-import NewStudentModal from "./NewStudentModal";
+import StudentModal from "./StudentModal";
+import { StudentsDataContext } from "../context/StudentsDataContext";
 
 type Props = {
   student: IStudent;
 };
 
 const Student: React.FC<Props> = ({ student }) => {
-  const [ isModalOpen, setIsModalOpen ] = useControllableState({ defaultValue: false })
+  const { isUpdateModalOpen, setIsUpdateModalOpen } = React.useContext(StudentsDataContext)
   const [ removeStudentDialog, setRemoveStudentDialog ] = useControllableState({ defaultValue: false})
   const [ areOptionsOpen, setAreOptionsOpen ] = useControllableState({ defaultValue: false })
   const { name, email, cpf, _id } = student;
@@ -27,10 +28,8 @@ const Student: React.FC<Props> = ({ student }) => {
   return (
     <>
       {
-        isModalOpen
-        && <NewStudentModal
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
+        isUpdateModalOpen
+        && <StudentModal
           newStudent={false}
           student={student}
         />
@@ -63,7 +62,7 @@ const Student: React.FC<Props> = ({ student }) => {
             <EditIcon 
               w={5} h={6}
               marginRight="2"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsUpdateModalOpen(true)}
             />
           </Tooltip>
           <Tooltip label="Excluir usuário">
