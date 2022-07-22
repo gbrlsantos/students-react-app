@@ -19,3 +19,10 @@ export const createStudent = gql`
     }
   }
 `;
+
+export const deleteStudent = gql`
+  mutation DeleteStudent($id: String!) {
+    deleteStudent(_id: $id) {
+      _id
+    }
+}`
