@@ -2,8 +2,6 @@ import { InputGroup, InputLeftElement, Stack, Input, Button, useControllableStat
 import { AtSignIcon } from '@chakra-ui/icons'
 import { useStudentMutation } from "../hooks/useRequest"
 import { createStudent } from "../graphql"
-import { ApolloCache, FetchResult } from "@apollo/client"
-import { IStudentMutation } from "../interfaces/IStudent"
 
 const NewStudentForm: React.FC = () => {
   const [ addStudent ] = useStudentMutation(createStudent)
