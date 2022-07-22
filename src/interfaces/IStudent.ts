@@ -8,7 +8,7 @@ export interface IStudent {
 }
 
 export interface IStudents {
-  getStudents: IStudent[]
+  findStudents: IStudent[]
 }
 
 export type IStudentMutation = {
