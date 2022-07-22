@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  app:
+    container_name: students-react-app
+    image: node:16 
+    working_dir: /app
+    volumes:
+      - '.:/app'
+    entrypoint:
+      - /bin/bash
+      - "-c" 
+      - "/usr/local/bin/npm install --force && /usr/local/bin/npm start" 
+    ports:
+      - 3000:3000
