@@ -1,4 +1,4 @@
-import { Box, Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Box, Table, TableContainer, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { StudentsDataContext } from "../context/StudentsDataContext";
 import { IStudent, IStudents } from "../interfaces/IStudent";
@@ -9,7 +9,6 @@ type Props = {
 }
 
 const StudentsTable: React.FC<Props> = ({data}) => {
-  console.log(data)
   let { studentsData } = useContext(StudentsDataContext)
   studentsData = data
 
