@@ -7,7 +7,6 @@ import Student from "./Student";
 
 const StudentsTable: React.FC = () => {
   const { loading, error, data } = useStudentQuery(findStudents);
-  
   if (error) return <h1>Ops, algo deu errado.</h1>;
 
   if (loading) return <LoadingScreen />;
@@ -30,8 +29,8 @@ const StudentsTable: React.FC = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {data?.findStudents.map((student: IStudent) => (
-              <Student key={student._id} student={student} />
+            {data?.findStudents.map((student: IStudent, index: number) => (
+              <Student key={index} student={student} />
             ))}
           </Tbody>
         </Table>
