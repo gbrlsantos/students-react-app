@@ -8,7 +8,6 @@ type Props = {
 
 const Student: React.FC<Props> = ({ student }) => {
   const { name, email, cpf } = student;
-  console.log(name)
 
   return (
     <Tr>
